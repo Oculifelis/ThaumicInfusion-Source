@@ -1,0 +1,41 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "catalyst": "#thaumaturgicinfusion:infusable",
+  "components": [
+    {
+      "neoforge:ingredient_type": "neoforge:components",
+      "items": "thaumaturge:phial",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:herba",
+            "amount": 10
+          }
+        ]
+      }
+    },
+    "#minecraft:logs"
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumaturgicinfusion:aspect_effects"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:infusion_sigil",
+    "components": {
+      "thaumaturgicinfusion:infusion": [
+        "thaumaturgicinfusion:arbor"
+      ]
+    }
+  }
+}

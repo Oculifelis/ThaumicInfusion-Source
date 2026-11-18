@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:tenebrae",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:visibility",
+      "mode": "dark"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:volatus",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:flight",
+      "height": 10
+    }
+  ]
+}

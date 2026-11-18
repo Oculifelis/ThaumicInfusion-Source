@@ -1,0 +1,9 @@
+{
+  "aspect": "thaumaturge:motus",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:portal"
+    }
+  ]
+}

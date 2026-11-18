@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:gelum",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:block_property",
+      "friction": 0.98
+    }
+  ]
+}

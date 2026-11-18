@@ -1,0 +1,8 @@
+.gradle/
+build/
+run/
+libs/*.jar
+*.log
+.idea/
+out/
+neoforge-1.21.1/libs/*.jar

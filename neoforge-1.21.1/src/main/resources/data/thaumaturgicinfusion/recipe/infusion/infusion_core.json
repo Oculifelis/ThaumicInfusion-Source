@@ -1,0 +1,37 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 80
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 40
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:pedestal_arcane"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:stone_arcane"
+    },
+    {
+      "item": "thaumaturge:stone_arcane_brick"
+    },
+    {
+      "item": "thaumaturge:stone_arcane"
+    },
+    {
+      "item": "thaumaturge:stone_arcane_brick"
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumaturgicinfusion:block_infusion"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:infusion_core"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 8
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "catalyst": {
+    "tag": "thaumaturgicinfusion:infusable"
+  },
+  "components": [
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:phial",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:praemunio",
+            "amount": 10
+          }
+        ]
+      }
+    },
+    {
+      "tag": "minecraft:wool"
+    }
+  ],
+  "instability": 1,
+  "research": {
+    "entry": "thaumaturgicinfusion:aspect_effects"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:infusion_sigil",
+    "components": {
+      "thaumaturgicinfusion:infusion": [
+        "thaumaturgicinfusion:pannus"
+      ]
+    }
+  }
+}

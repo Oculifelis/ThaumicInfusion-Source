@@ -1,0 +1,18 @@
+{
+  "aspect": "thaumaturge:victus",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:spawner",
+      "entities": [
+        "minecraft:pig",
+        "minecraft:sheep",
+        "minecraft:cow",
+        "minecraft:chicken"
+      ],
+      "interval": 20,
+      "chance": 0.02,
+      "dark": false
+    }
+  ]
+}

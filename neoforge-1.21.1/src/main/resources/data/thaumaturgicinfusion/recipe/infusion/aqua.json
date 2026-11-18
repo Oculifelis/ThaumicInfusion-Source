@@ -1,0 +1,42 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 8
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "catalyst": {
+    "tag": "thaumaturgicinfusion:infusable"
+  },
+  "components": [
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:phial",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:aqua",
+            "amount": 10
+          }
+        ]
+      }
+    }
+  ],
+  "instability": 1,
+  "research": {
+    "entry": "thaumaturgicinfusion:aspect_effects"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:infusion_sigil",
+    "components": {
+      "thaumaturgicinfusion:infusion": [
+        "thaumaturgicinfusion:aqua"
+      ]
+    }
+  }
+}

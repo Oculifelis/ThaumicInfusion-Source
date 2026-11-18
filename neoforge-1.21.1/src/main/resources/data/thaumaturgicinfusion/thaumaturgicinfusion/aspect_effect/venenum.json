@@ -1,0 +1,13 @@
+{
+  "aspect": "thaumaturge:aversio",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:mob_effect_aura",
+      "effect": "minecraft:poison",
+      "duration": 100,
+      "amplifier": 0,
+      "interval": 80
+    }
+  ]
+}

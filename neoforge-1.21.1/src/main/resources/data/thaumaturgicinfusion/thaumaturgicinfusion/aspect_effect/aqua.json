@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:aqua",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:fluid_source",
+      "fluid": "minecraft:water"
+    }
+  ]
+}

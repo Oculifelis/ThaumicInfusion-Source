@@ -1,0 +1,41 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "catalyst": "#thaumaturgicinfusion:infusable",
+  "components": [
+    {
+      "neoforge:ingredient_type": "neoforge:components",
+      "items": "thaumaturge:phial",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:desiderium",
+            "amount": 10
+          }
+        ]
+      }
+    },
+    "minecraft:rotten_flesh"
+  ],
+  "instability": 3,
+  "research": {
+    "entry": "thaumaturgicinfusion:aspect_effects"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:infusion_sigil",
+    "components": {
+      "thaumaturgicinfusion:infusion": [
+        "thaumaturgicinfusion:fames"
+      ]
+    }
+  }
+}

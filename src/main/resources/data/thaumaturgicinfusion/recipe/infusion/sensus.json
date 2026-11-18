@@ -1,0 +1,40 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "catalyst": "#thaumaturgicinfusion:infusable",
+  "components": [
+    {
+      "neoforge:ingredient_type": "neoforge:components",
+      "items": "thaumaturge:phial",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:sensus",
+            "amount": 10
+          }
+        ]
+      }
+    }
+  ],
+  "instability": 3,
+  "research": {
+    "entry": "thaumaturgicinfusion:aspect_effects"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:infusion_sigil",
+    "components": {
+      "thaumaturgicinfusion:infusion": [
+        "thaumaturgicinfusion:sensus"
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:herba",
+  "cost": 2,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:block_property",
+      "half_shape": true
+    }
+  ]
+}

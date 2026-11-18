@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:ignis",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:block_property",
+      "fire_source": true
+    }
+  ]
+}

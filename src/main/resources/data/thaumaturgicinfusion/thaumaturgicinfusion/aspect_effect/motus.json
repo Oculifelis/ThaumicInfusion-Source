@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:motus",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:push",
+      "speed": 0.15
+    }
+  ]
+}

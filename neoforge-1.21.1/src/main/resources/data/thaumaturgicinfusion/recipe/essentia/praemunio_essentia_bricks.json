@@ -1,0 +1,43 @@
+{
+  "type": "thaumaturge:arcane_workbench_shaped",
+  "crystals": [
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 1
+    }
+  ],
+  "key": {
+    "P": {
+      "type": "neoforge:components",
+      "items": "thaumaturgicinfusion:essentia_block",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:praemunio",
+            "amount": 1
+          }
+        ]
+      }
+    }
+  },
+  "pattern": [
+    "PP",
+    "PP"
+  ],
+  "research": {
+    "entry": "thaumaturgicinfusion:essentia_blocks"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:essentia_bricks",
+    "count": 4,
+    "components": {
+      "thaumaturge:aspects": [
+        {
+          "aspect": "thaumaturge:praemunio",
+          "amount": 1
+        }
+      ]
+    }
+  },
+  "vis": 4
+}

@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:vinculum",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:trap",
+      "height": 3
+    }
+  ]
+}

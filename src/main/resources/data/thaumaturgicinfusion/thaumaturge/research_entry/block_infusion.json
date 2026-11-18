@@ -1,0 +1,54 @@
+{
+  "category": "thaumaturgicinfusion:thaumaturgicinfusion",
+  "name": "research.thaumaturgicinfusion.block_infusion.title",
+  "parents": [
+    "thaumaturge:infusion"
+  ],
+  "column": 0,
+  "row": 0,
+  "icons": [
+    "minecraft:stone"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumaturgicinfusion.block_infusion.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumaturge:infusion",
+          "amount": 1
+        },
+        {
+          "type": "observation",
+          "category": "thaumaturge:infusion",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumaturgicinfusion.block_infusion.stage_1",
+      "recipes": [
+        "thaumaturgicinfusion:infusion/infusion_core"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    }
+  ],
+  "complexity": 2
+}

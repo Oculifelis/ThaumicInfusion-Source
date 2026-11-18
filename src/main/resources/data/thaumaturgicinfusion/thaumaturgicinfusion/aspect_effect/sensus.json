@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:sensus",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:visibility",
+      "mode": "revealed"
+    }
+  ]
+}

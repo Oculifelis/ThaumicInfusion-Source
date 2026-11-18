@@ -1,0 +1,11 @@
+{
+  "aspect": "thaumaturge:perditio",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:volatile",
+      "chance": 0.05,
+      "power": 4.0
+    }
+  ]
+}

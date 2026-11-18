@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:praemunio",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:fall_cushion",
+      "multiplier": 0.0
+    }
+  ]
+}

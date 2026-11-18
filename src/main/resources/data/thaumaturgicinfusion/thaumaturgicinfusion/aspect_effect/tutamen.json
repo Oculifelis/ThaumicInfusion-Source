@@ -1,0 +1,11 @@
+{
+  "aspect": "thaumaturge:praemunio",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:hardness",
+      "break_speed_multiplier": 0.05,
+      "explosion_proof": true
+    }
+  ]
+}

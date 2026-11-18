@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:spiritus",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:block_property",
+      "no_collision": true
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:lux",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:block_property",
+      "light": 14
+    }
+  ]
+}

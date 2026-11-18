@@ -1,0 +1,9 @@
+{
+  "aspect": "thaumaturge:bestia",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:deny_spawns"
+    }
+  ]
+}

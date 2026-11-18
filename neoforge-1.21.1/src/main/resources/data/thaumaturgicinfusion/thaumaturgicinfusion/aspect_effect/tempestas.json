@@ -1,0 +1,11 @@
+{
+  "aspect": "thaumaturge:aer",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:lightning",
+      "interval": 50,
+      "chance": 0.02
+    }
+  ]
+}

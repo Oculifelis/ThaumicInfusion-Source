@@ -1,0 +1,9 @@
+{
+  "aspect": "thaumaturge:machina",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:toggle"
+    }
+  ]
+}

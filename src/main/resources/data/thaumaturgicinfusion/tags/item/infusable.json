@@ -1,0 +1,49 @@
+{
+  "values": [
+    "#minecraft:planks",
+    "#minecraft:logs",
+    "#minecraft:wool",
+    "#minecraft:terracotta",
+    "#minecraft:stone_bricks",
+    "#minecraft:sand",
+    "#minecraft:dirt",
+    {
+      "id": "#c:stones",
+      "required": false
+    },
+    {
+      "id": "#c:cobblestones",
+      "required": false
+    },
+    {
+      "id": "#c:glass_blocks",
+      "required": false
+    },
+    {
+      "id": "#c:sandstone/blocks",
+      "required": false
+    },
+    {
+      "id": "#c:obsidians",
+      "required": false
+    },
+    {
+      "id": "#c:storage_blocks",
+      "required": false
+    },
+    "minecraft:stone",
+    "minecraft:cobblestone",
+    "minecraft:smooth_stone",
+    "minecraft:bricks",
+    "minecraft:deepslate",
+    "minecraft:polished_deepslate",
+    "minecraft:deepslate_bricks",
+    "minecraft:quartz_block",
+    "minecraft:glass",
+    "thaumaturge:stone_arcane",
+    "thaumaturge:stone_arcane_brick",
+    "thaumaturgicinfusion:essentia_block",
+    "thaumaturgicinfusion:essentia_bricks",
+    "thaumaturgicinfusion:essentia_chiseled"
+  ]
+}

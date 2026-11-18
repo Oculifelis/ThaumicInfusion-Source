@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:vitreus",
+  "cost": 2,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:block_property",
+      "transparent": true
+    }
+  ]
+}

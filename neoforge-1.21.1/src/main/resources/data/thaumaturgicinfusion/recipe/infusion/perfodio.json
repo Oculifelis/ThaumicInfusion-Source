@@ -1,0 +1,45 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "catalyst": {
+    "tag": "thaumaturgicinfusion:infusable"
+  },
+  "components": [
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:phial",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:terra",
+            "amount": 10
+          }
+        ]
+      }
+    },
+    {
+      "item": "minecraft:iron_pickaxe"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumaturgicinfusion:aspect_effects"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:infusion_sigil",
+    "components": {
+      "thaumaturgicinfusion:infusion": [
+        "thaumaturgicinfusion:perfodio"
+      ]
+    }
+  }
+}

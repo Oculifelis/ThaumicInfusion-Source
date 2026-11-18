@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:ignis",
+  "cost": 4,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:ignite",
+      "seconds": 8
+    }
+  ]
+}

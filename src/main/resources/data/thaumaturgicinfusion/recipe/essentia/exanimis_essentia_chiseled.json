@@ -1,0 +1,43 @@
+{
+  "type": "thaumaturge:arcane_workbench_shaped",
+  "crystals": [
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 1
+    }
+  ],
+  "key": {
+    "P": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "items": "thaumaturgicinfusion:essentia_bricks",
+      "components": {
+        "thaumaturge:aspects": [
+          {
+            "aspect": "thaumaturge:exanimis",
+            "amount": 1
+          }
+        ]
+      }
+    }
+  },
+  "pattern": [
+    "PP",
+    "PP"
+  ],
+  "research": {
+    "entry": "thaumaturgicinfusion:essentia_blocks"
+  },
+  "result": {
+    "id": "thaumaturgicinfusion:essentia_chiseled",
+    "count": 4,
+    "components": {
+      "thaumaturge:aspects": [
+        {
+          "aspect": "thaumaturge:exanimis",
+          "amount": 1
+        }
+      ]
+    }
+  },
+  "vis": 4
+}

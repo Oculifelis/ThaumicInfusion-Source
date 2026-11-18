@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:cognitio",
+  "cost": 1,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:block_property",
+      "enchant_power": 1.0
+    }
+  ]
+}

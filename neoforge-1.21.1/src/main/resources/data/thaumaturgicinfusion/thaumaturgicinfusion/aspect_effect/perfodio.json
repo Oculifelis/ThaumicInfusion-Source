@@ -1,0 +1,10 @@
+{
+  "aspect": "thaumaturge:terra",
+  "cost": 2,
+  "behaviours": [
+    {
+      "type": "thaumaturgicinfusion:hardness",
+      "break_speed_multiplier": 2.0
+    }
+  ]
+}
