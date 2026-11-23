@@ -9,7 +9,7 @@ displayName="${mod_name}"
 authors="DrunkMafia (original Thaumic Infusion), Oculifelis (port to Thaumaturge)"
 credits="Original mod by DrunkMafia (WTFPL). Thaumaturge by Leclowndu93150 and contributors."
 description='''
-Thaumaturgic Infusion: a port of Thaumic Infusion (Thaumcraft 4 addon by DrunkMafia) to Thaumaturge on NeoForge 26.1.2.
+Thaumaturgic Infusion: a port of Thaumic Infusion (Thaumcraft 4 addon by DrunkMafia) to Thaumaturge on NeoForge 1.21.1.
 Infuse any block with aspect effects on the infusion altar: 39 effects from light and redstone to portals, hidden blocks,
 disguised inventories and mob spawners. Also Essentia Blocks in every aspect colour and the Infusion Core stabiliser.
 '''
@@ -20,7 +20,7 @@ config="${mod_id}.mixins.json"
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"
-    versionRange="[26.1.2.71,)"
+    versionRange="[${neo_version},)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.${mod_id}]]

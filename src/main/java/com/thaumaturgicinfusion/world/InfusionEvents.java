@@ -230,17 +230,15 @@ public final class InfusionEvents {
     }
 
     private static void onChunkLoad(ChunkEvent.Load event) {
-        LevelChunk chunk = event.getChunk();
-        if (!(event.getLevel() instanceof Level level))
+        if (!(event.getChunk() instanceof LevelChunk chunk) || !(event.getLevel() instanceof Level level))
             return;
-        InfusedBlocks data = chunk.getExistingDataOrNull(TIRegistry.INFUSED_BLOCKS);
+        InfusedBlocks data = chunk.getExistingData(TIRegistry.INFUSED_BLOCKS).orElse(null);
         if (data != null && !data.isEmpty())
             InfusionIndex.of(level).loadChunk(chunk.getPos(), data);
     }
 
     private static void onChunkUnload(ChunkEvent.Unload event) {
-        LevelChunk chunk = event.getChunk();
-        if (!(event.getLevel() instanceof Level level))
+        if (!(event.getChunk() instanceof LevelChunk chunk) || !(event.getLevel() instanceof Level level))
             return;
         InfusionIndex index = InfusionIndex.peek(level);
         if (index != null)

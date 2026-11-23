@@ -10,10 +10,12 @@
       "amount": 4
     }
   ],
-  "catalyst": "#thaumaturgicinfusion:infusable",
+  "catalyst": {
+    "tag": "thaumaturgicinfusion:infusable"
+  },
   "components": [
     {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "items": "thaumaturge:phial",
       "components": {
         "thaumaturge:aspects": [
@@ -24,7 +26,9 @@
         ]
       }
     },
-    "minecraft:lightning_rod"
+    {
+      "item": "minecraft:lightning_rod"
+    }
   ],
   "instability": 1,
   "research": {

@@ -1,9 +1,0 @@
-{
-  "aspect": "thaumaturge:aqua",
-  "cost": 4,
-  "behaviours": [
-    {
-      "type": "thaumaturgicinfusion:ooze"
-    }
-  ]
-}

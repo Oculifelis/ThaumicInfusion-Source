@@ -8,7 +8,7 @@
   ],
   "key": {
     "P": {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "items": "thaumaturgicinfusion:essentia_block",
       "components": {
         "thaumaturge:aspects": [

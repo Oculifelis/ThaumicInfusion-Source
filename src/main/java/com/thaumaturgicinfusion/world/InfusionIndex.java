@@ -98,14 +98,14 @@ public final class InfusionIndex {
     }
 
     private Registry<AspectEffect> registry() {
-        return level.registryAccess().lookup(TIRegistry.ASPECT_EFFECT_KEY).orElse(null);
+        return level.registryAccess().registry(TIRegistry.ASPECT_EFFECT_KEY).orElse(null);
     }
 
     /** Replace everything indexed for a chunk. Returns the positions whose entry changed. */
     Set<Long> loadChunk(ChunkPos chunk, InfusedBlocks data) {
         Registry<AspectEffect> registry = registry();
         Set<Long> changed = new HashSet<>();
-        Set<Long> old = byChunk.remove(chunk.pack());
+        Set<Long> old = byChunk.remove(chunk.toLong());
         if (old != null)
             for (long p : old) {
                 Resolved r = byPos.remove(p);
@@ -122,12 +122,12 @@ public final class InfusionIndex {
             byPos.put(e.pos(), Resolved.of(registry, e));
             positions.add(e.pos());
         }
-        byChunk.put(chunk.pack(), positions);
+        byChunk.put(chunk.toLong(), positions);
         return changed;
     }
 
     void unloadChunk(ChunkPos chunk) {
-        Set<Long> old = byChunk.remove(chunk.pack());
+        Set<Long> old = byChunk.remove(chunk.toLong());
         if (old != null)
             old.forEach(byPos::remove);
     }
@@ -137,12 +137,12 @@ public final class InfusionIndex {
         if (registry == null)
             return;
         byPos.put(e.pos(), Resolved.of(registry, e));
-        byChunk.computeIfAbsent(ChunkPos.containing(e.blockPos()).pack(), k -> ConcurrentHashMap.newKeySet()).add(e.pos());
+        byChunk.computeIfAbsent(new ChunkPos(e.blockPos()).toLong(), k -> ConcurrentHashMap.newKeySet()).add(e.pos());
     }
 
     void remove(BlockPos pos) {
         byPos.remove(pos.asLong());
-        Set<Long> set = byChunk.get(ChunkPos.containing(pos).pack());
+        Set<Long> set = byChunk.get(new ChunkPos(pos).toLong());
         if (set != null)
             set.remove(pos.asLong());
     }

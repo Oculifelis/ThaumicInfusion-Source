@@ -9,10 +9,10 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -30,16 +30,16 @@ final class TICommand {
 
     static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
         dispatcher.register(Commands.literal("thaumaturgicinfusion")
-                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                .requires(s -> s.hasPermission(2))
                 .then(Commands.literal("list").executes(ctx -> {
-                    List<Identifier> ids = effects(ctx.getSource()).keySet().stream().sorted().toList();
+                    List<ResourceLocation> ids = effects(ctx.getSource()).keySet().stream().sorted().toList();
                     ctx.getSource().sendSuccess(() -> Component.literal(ids.size() + " effects: " + ids), false);
                     return ids.size();
                 }))
-                .then(Commands.literal("infuse").then(Commands.argument("effect", IdentifierArgument.id())
+                .then(Commands.literal("infuse").then(Commands.argument("effect", ResourceLocationArgument.id())
                         .suggests((ctx, b) -> SharedSuggestionProvider.suggestResource(effects(ctx.getSource()).keySet(), b))
                         .executes(ctx -> {
-                            Identifier id = IdentifierArgument.getId(ctx, "effect");
+                            ResourceLocation id = ResourceLocationArgument.getId(ctx, "effect");
                             if (!effects(ctx.getSource()).containsKey(id))
                                 throw UNKNOWN.create();
                             ServerPlayer player = ctx.getSource().getPlayerOrException();
@@ -53,6 +53,6 @@ final class TICommand {
     }
 
     private static Registry<AspectEffect> effects(CommandSourceStack source) {
-        return source.registryAccess().lookupOrThrow(TIRegistry.ASPECT_EFFECT_KEY);
+        return source.registryAccess().registryOrThrow(TIRegistry.ASPECT_EFFECT_KEY);
     }
 }

@@ -59,12 +59,12 @@ final class Interactions {
                     BlockPos other = target.pos();
                     Resolved partner = InfusionWorld.get(level, other);
                     if (portal && (partner == null || partner.find(Behaviours.Portal.class) == null)) {
-                        player.sendOverlayMessage(Component.translatable("message.thaumaturgicinfusion.link_failed"));
+                        player.displayClientMessage(Component.translatable("message.thaumaturgicinfusion.link_failed"), true);
                     } else {
                         InfusionWorld.update(level, pos, e -> e.withLink(Optional.of(other)));
                         if (portal)
                             InfusionWorld.update(level, other, e -> e.withLink(Optional.of(pos)));
-                        player.sendOverlayMessage(Component.translatable("message.thaumaturgicinfusion.linked"));
+                        player.displayClientMessage(Component.translatable("message.thaumaturgicinfusion.linked"), true);
                     }
                     wand.remove(TIRegistry.LINK_TARGET.get());
                 }
@@ -76,7 +76,7 @@ final class Interactions {
                     InfusionWorld.update(level, pos, e -> e.withLink(Optional.empty()));
                     if (portal)
                         InfusionWorld.update(level, other, e -> e.link().equals(Optional.of(pos)) ? e.withLink(Optional.empty()) : e);
-                    player.sendOverlayMessage(Component.translatable("message.thaumaturgicinfusion.unlinked"));
+                    player.displayClientMessage(Component.translatable("message.thaumaturgicinfusion.unlinked"), true);
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -89,7 +89,7 @@ final class Interactions {
         // Not infused: remember an inventory for Permutatio. The client only guesses from the block entity.
         if (level.getBlockEntity(pos) == null)
             return InteractionResult.PASS;
-        if (server && level.getCapability(Capabilities.Item.BLOCK, pos, null) != null)
+        if (server && level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null) != null)
             remember(level, pos, player, wand);
         return InteractionResult.SUCCESS;
     }
@@ -98,6 +98,6 @@ final class Interactions {
         if (level.isClientSide())
             return;
         wand.set(TIRegistry.LINK_TARGET.get(), new GlobalPos(level.dimension(), pos.immutable()));
-        player.sendOverlayMessage(Component.translatable("message.thaumaturgicinfusion.remembered"));
+        player.displayClientMessage(Component.translatable("message.thaumaturgicinfusion.remembered"), true);
     }
 }

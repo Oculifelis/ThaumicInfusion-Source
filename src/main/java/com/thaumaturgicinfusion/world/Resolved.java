@@ -8,7 +8,7 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
 /** An infused position with its effects looked up and its block properties worked out. Immutable. */
@@ -16,8 +16,8 @@ public record Resolved(InfusedBlocks.Entry entry, Block block, List<EffectBehavi
 
     public static Resolved of(Registry<AspectEffect> registry, InfusedBlocks.Entry entry) {
         List<EffectBehaviour> all = new ArrayList<>();
-        for (Identifier id : entry.infusion().effects()) {
-            AspectEffect effect = registry.getValue(id);
+        for (ResourceLocation id : entry.infusion().effects()) {
+            AspectEffect effect = registry.get(id);
             if (effect != null)
                 all.addAll(effect.behaviours());
         }
@@ -30,7 +30,7 @@ public record Resolved(InfusedBlocks.Entry entry, Block block, List<EffectBehavi
             b.apply(props);
             ticks |= b.tickInterval() > 0;
         }
-        return new Resolved(entry, BuiltInRegistries.BLOCK.getValue(entry.block()), List.copyOf(all), props, ticks);
+        return new Resolved(entry, BuiltInRegistries.BLOCK.get(entry.block()), List.copyOf(all), props, ticks);
     }
 
     public BlockPos pos() {

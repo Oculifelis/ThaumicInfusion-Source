@@ -10,12 +10,22 @@
       "amount": 40
     }
   ],
-  "catalyst": "thaumaturge:pedestal_arcane",
+  "catalyst": {
+    "item": "thaumaturge:pedestal_arcane"
+  },
   "components": [
-    "thaumaturge:stone_arcane",
-    "thaumaturge:stone_arcane_brick",
-    "thaumaturge:stone_arcane",
-    "thaumaturge:stone_arcane_brick"
+    {
+      "item": "thaumaturge:stone_arcane"
+    },
+    {
+      "item": "thaumaturge:stone_arcane_brick"
+    },
+    {
+      "item": "thaumaturge:stone_arcane"
+    },
+    {
+      "item": "thaumaturge:stone_arcane_brick"
+    }
   ],
   "instability": 4,
   "research": {

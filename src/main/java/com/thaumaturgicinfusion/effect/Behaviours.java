@@ -27,7 +27,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -300,9 +300,9 @@ public final class Behaviours {
         public void tick(ServerLevel level, BlockPos pos, Resolved block, long gameTime) {
             if (!level.isRainingAt(pos.above()) || level.getRandom().nextFloat() >= chance)
                 return;
-            LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level, EntitySpawnReason.TRIGGERED);
+            LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
             if (bolt != null) {
-                bolt.snapTo(Vec3.atBottomCenterOf(pos.above()));
+                bolt.moveTo(Vec3.atBottomCenterOf(pos.above()));
                 level.addFreshEntity(bolt);
             }
         }
@@ -376,12 +376,12 @@ public final class Behaviours {
             EntityType<?> type = entities.get(level.getRandom().nextInt(entities.size()));
             if (level.getEntitiesOfClass(Entity.class, box(pos, 8), n -> n.getType() == type).size() >= maxNearby)
                 return;
-            Entity e = type.create(level, EntitySpawnReason.SPAWNER);
+            Entity e = type.create(level);
             if (e == null)
                 return;
-            e.snapTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5, level.getRandom().nextFloat() * 360f, 0f);
+            e.moveTo(at.getX() + 0.5, at.getY(), at.getZ() + 0.5, level.getRandom().nextFloat() * 360f, 0f);
             if (e instanceof Mob mob)
-                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(at), EntitySpawnReason.SPAWNER, null);
+                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(at), MobSpawnType.SPAWNER, null);
             level.addFreshEntity(e);
         }
     }
@@ -688,7 +688,7 @@ public final class Behaviours {
             if (!(held.getItem() instanceof BlockItem bi) || bi.getBlock() == block.block())
                 return InteractionResult.PASS;
             BlockState look = bi.getBlock().defaultBlockState();
-            if (!look.isSolidRender())
+            if (!look.isSolidRender(net.minecraft.world.level.EmptyBlockGetter.INSTANCE, BlockPos.ZERO))
                 return InteractionResult.PASS;
             if (!level.isClientSide())
                 InfusionWorld.update(level, pos, e -> e.withDisguise(Optional.of(look)));

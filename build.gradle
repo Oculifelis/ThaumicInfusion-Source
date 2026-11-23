@@ -10,19 +10,37 @@ base {
     archivesName = "${mod_id}-${minecraft_version}"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
+    mavenCentral()
     flatDir { dirs 'libs' }
+    maven {
+        name = 'Curios'
+        url = 'https://maven.theillusivec4.top/'
+        content { includeGroup 'top.theillusivec4.curios' }
+    }
+    maven {
+        name = 'JEI'
+        url = 'https://maven.blamejared.com/'
+        content { includeGroup 'mezz.jei' }
+    }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
 }
 
 dependencies {
-    // Local copies of the jars installed in the Simply NeoForged instance (not committed, see libs/README.md).
-    implementation files('libs/thaumaturge-26.1.2-NeoForge-1.1.0.jar')
-    // JEI is optional: compat/TIJeiPlugin only loads when JEI finds it.
-    compileOnly files('libs/jei-26.1.2-common-api-29.47.0.111.jar')
-    runtimeOnly files('libs/curios-neoforge-15.0.0+26.1.2.jar')
-    runtimeOnly files('libs/lithostitched-1.8.1-neoforge-26.1.jar')
+    // Thaumaturge for 1.21.1 (local copy, not committed)
+    implementation files('libs/thaumaturge-1.21.1-NeoForge-1.1.0.jar')
+    // JEI is optional: API only
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+    runtimeOnly "maven.modrinth:lithostitched:${lithostitched_version}"
 }
 
 neoForge {

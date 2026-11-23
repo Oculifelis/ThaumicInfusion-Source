@@ -13,14 +13,14 @@ import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
-import mezz.jei.api.recipe.types.IRecipeType;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -31,16 +31,16 @@ import net.minecraft.world.item.ItemStack;
  */
 @JeiPlugin
 public final class TIJeiPlugin implements IModPlugin {
-    record Effect(Identifier id, AspectEffect effect) {
+    record Effect(ResourceLocation id, AspectEffect effect) {
     }
 
-    static final IRecipeType<Effect> ASPECT_EFFECTS = IRecipeType.create(ThaumaturgicInfusion.id("aspect_effects"), Effect.class);
+    static final RecipeType<Effect> ASPECT_EFFECTS = new RecipeType<>(ThaumaturgicInfusion.id("aspect_effects"), Effect.class);
     // Mirrors ESSENTIA_PER_COST in tools/gen_data.py, which scales each infusion recipe's essentia from the cost.
     private static final int ESSENTIA_PER_COST = 8;
     private static final String[] INFO = {"infusion_sigil", "infusion_core", "essentia_block", "essentia_bricks", "essentia_chiseled"};
 
     @Override
-    public Identifier getPluginUid() {
+    public ResourceLocation getPluginUid() {
         return ThaumaturgicInfusion.id("jei");
     }
 
@@ -51,7 +51,7 @@ public final class TIJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addCraftingStation(ASPECT_EFFECTS, TIRegistry.INFUSION_CORE_ITEM.get());
+        registration.addRecipeCatalyst(new ItemStack(TIRegistry.INFUSION_CORE_ITEM.get()), ASPECT_EFFECTS);
     }
 
     @Override
@@ -59,8 +59,8 @@ public final class TIJeiPlugin implements IModPlugin {
         List<Effect> effects = new ArrayList<>();
         var level = Minecraft.getInstance().level;
         if (level != null) {
-            level.registryAccess().lookup(TIRegistry.ASPECT_EFFECT_KEY).ifPresent(l -> l.listElements()
-                    .forEach(h -> effects.add(new Effect(h.key().identifier(), h.value()))));
+            level.registryAccess().registry(TIRegistry.ASPECT_EFFECT_KEY).ifPresent(l -> l.holders()
+                    .forEach(h -> effects.add(new Effect(h.key().location(), h.value()))));
         }
         effects.sort((a, b) -> a.id().compareTo(b.id()));
         registration.addRecipes(ASPECT_EFFECTS, effects);
@@ -80,12 +80,12 @@ public final class TIJeiPlugin implements IModPlugin {
         public void setRecipe(IRecipeLayoutBuilder builder, Effect recipe, IFocusGroup focuses) {
             ItemStack sigil = new ItemStack(TIRegistry.INFUSION_SIGIL.get());
             sigil.set(TIRegistry.INFUSION.get(), new Infusion(List.of(recipe.id())));
-            builder.addOutputSlot(1, 1).setOutputSlotBackground().add(sigil);
+            builder.addSlot(mezz.jei.api.recipe.RecipeIngredientRole.OUTPUT, 1, 1).addItemStack(sigil);
         }
 
         @Override
         public void createRecipeExtras(IRecipeExtrasBuilder builder, Effect recipe, IFocusGroup focuses) {
-            Identifier id = recipe.id();
+            ResourceLocation id = recipe.id();
             builder.addText(Component.translatable("aspect_effect." + id.getNamespace() + "." + id.getPath()), 136, 10)
                     .setPosition(24, 2).setColor(0xFF404040);
             builder.addText(Component.translatable("jei.thaumaturgicinfusion.cost", recipe.effect().cost() * ESSENTIA_PER_COST), 136, 10)

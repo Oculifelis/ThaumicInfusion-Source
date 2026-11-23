@@ -9,7 +9,6 @@ import com.thaumaturgicinfusion.TIRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -18,8 +17,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.nbt.NbtOps;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -45,22 +43,25 @@ public class EssentiaBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        aspect = input.read("aspect", ASPECT_CODEC).orElse(null);
+    protected void loadAdditional(CompoundTag input, HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
+        aspect = input.contains("aspect")
+                ? ASPECT_CODEC.parse(registries.createSerializationContext(NbtOps.INSTANCE), input.get("aspect")).result().orElse(null)
+                : null;
         if (level != null && level.isClientSide())
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 8);
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
+    protected void saveAdditional(CompoundTag output, HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
         if (aspect != null)
-            output.store("aspect", ASPECT_CODEC, aspect);
+            ASPECT_CODEC.encodeStart(registries.createSerializationContext(NbtOps.INSTANCE), aspect).result()
+                    .ifPresent(t -> output.put("aspect", t));
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentGetter components) {
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput components) {
         super.applyImplicitComponents(components);
         AspectList list = components.get(TTDataComponents.ASPECTS.get());
         if (list != null && !list.isEmpty())
@@ -75,8 +76,8 @@ public class EssentiaBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void removeComponentsFromTag(ValueOutput output) {
-        output.discard("aspect");
+    public void removeComponentsFromTag(CompoundTag output) {
+        output.remove("aspect");
     }
 
     @Override

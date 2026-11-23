@@ -53,7 +53,7 @@ public final class InfusionWorld {
         if (!level.isLoaded(pos))
             return;
         LevelChunk chunk = level.getChunkAt(pos);
-        InfusedBlocks data = chunk.getExistingDataOrNull(TIRegistry.INFUSED_BLOCKS);
+        InfusedBlocks data = chunk.getExistingData(TIRegistry.INFUSED_BLOCKS).orElse(null);
         if (data == null || data.get(pos) == null)
             return;
         InfusionIndex index = InfusionIndex.of(level);

@@ -39,8 +39,8 @@ public class EssentiaBlock extends BaseEntityBlock {
 
     /** Pick block keeps the aspect even without the include-data key, like the original's getPickBlock. */
     @Override
-    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
-        ItemStack stack = super.getCloneItemStack(level, pos, state, includeData);
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+        ItemStack stack = super.getCloneItemStack(level, pos, state);
         if (level.getBlockEntity(pos) instanceof EssentiaBlockEntity be)
             stack.applyComponents(be.collectComponents());
         return stack;

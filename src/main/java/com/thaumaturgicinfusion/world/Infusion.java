@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 /** The aspect effects infused into one block, by aspect_effect registry id. Used as item component and chunk data. */
-public record Infusion(List<Identifier> effects) {
+public record Infusion(List<ResourceLocation> effects) {
     public static final Infusion EMPTY = new Infusion(List.of());
-    public static final Codec<Infusion> CODEC = Identifier.CODEC.listOf().xmap(Infusion::new, Infusion::effects);
+    public static final Codec<Infusion> CODEC = ResourceLocation.CODEC.listOf().xmap(Infusion::new, Infusion::effects);
     public static final StreamCodec<ByteBuf, Infusion> STREAM_CODEC =
-            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()).map(Infusion::new, Infusion::effects);
+            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()).map(Infusion::new, Infusion::effects);
 
     public Infusion {
         effects = List.copyOf(effects);
@@ -23,14 +23,14 @@ public record Infusion(List<Identifier> effects) {
         return effects.isEmpty();
     }
 
-    public boolean has(Identifier effect) {
+    public boolean has(ResourceLocation effect) {
         return effects.contains(effect);
     }
 
     /** Both lists combined, keeping order and dropping duplicates. */
     public Infusion merge(Infusion other) {
-        List<Identifier> out = new ArrayList<>(effects);
-        for (Identifier id : other.effects)
+        List<ResourceLocation> out = new ArrayList<>(effects);
+        for (ResourceLocation id : other.effects)
             if (!out.contains(id))
                 out.add(id);
         return new Infusion(out);

@@ -24,11 +24,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.transfer.InfiniteResourceHandler;
-import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.fluid.FluidResource;
-import net.neoforged.neoforge.transfer.item.ItemResource;
-import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 /**
  * The capability effects: Vacuos (disguised inventory), Permutatio (extension of a linked inventory) and Aqua
@@ -109,7 +109,7 @@ public final class StorageEffects {
         if (level.isClientSide())
             return;
         LevelChunk chunk = level.getChunkAt(pos);
-        StoredItems stored = chunk.getExistingDataOrNull(TIRegistry.STORED_ITEMS);
+        StoredItems stored = chunk.getExistingData(TIRegistry.STORED_ITEMS).orElse(null);
         if (stored != null && stored.slots().containsKey(pos.asLong()))
             chunk.setData(TIRegistry.STORED_ITEMS, stored.without(pos.asLong()));
     }
@@ -121,18 +121,18 @@ public final class StorageEffects {
     static void unloadChunk(Level level, LevelChunk chunk) {
         Map<Long, Inventory> open = OPEN.get(level);
         if (open != null)
-            open.keySet().removeIf(p -> chunk.getPos().equals(net.minecraft.world.level.ChunkPos.containing(BlockPos.of(p))));
+            open.keySet().removeIf(p -> chunk.getPos().equals(new net.minecraft.world.level.ChunkPos(BlockPos.of(p))));
     }
 
     // ---- capabilities -----------------------------------------------------------------------------------------------
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         Block[] all = BuiltInRegistries.BLOCK.stream().toArray(Block[]::new);
-        event.registerBlock(Capabilities.Item.BLOCK, StorageEffects::itemHandler, all);
-        event.registerBlock(Capabilities.Fluid.BLOCK, StorageEffects::fluidHandler, all);
+        event.registerBlock(Capabilities.ItemHandler.BLOCK, StorageEffects::itemHandler, all);
+        event.registerBlock(Capabilities.FluidHandler.BLOCK, StorageEffects::fluidHandler, all);
     }
 
-    private static ResourceHandler<ItemResource> itemHandler(Level level, BlockPos pos, BlockState state, BlockEntity be, Direction side) {
+    private static IItemHandler itemHandler(Level level, BlockPos pos, BlockState state, BlockEntity be, Direction side) {
         if (!(level instanceof ServerLevel sl))
             return null;
         InfusionIndex index = InfusionIndex.peek(level);
@@ -141,14 +141,14 @@ public final class StorageEffects {
             return null;
         Behaviours.Storage storage = r.find(Behaviours.Storage.class);
         if (storage != null)
-            return VanillaContainerWrapper.of(inventory(sl, pos, storage.rows()));
+            return new InvWrapper(inventory(sl, pos, storage.rows()));
         if (r.find(Behaviours.InventoryLink.class) != null && r.entry().link().isPresent() && DEPTH.get() < 4) {
             BlockPos link = r.entry().link().get();
             if (!level.isLoaded(link))
                 return null;
             DEPTH.set(DEPTH.get() + 1);
             try {
-                return level.getCapability(Capabilities.Item.BLOCK, link, side);
+                return level.getCapability(Capabilities.ItemHandler.BLOCK, link, side);
             } finally {
                 DEPTH.set(DEPTH.get() - 1);
             }
@@ -156,10 +156,48 @@ public final class StorageEffects {
         return null;
     }
 
-    private static ResourceHandler<FluidResource> fluidHandler(Level level, BlockPos pos, BlockState state, BlockEntity be, Direction side) {
+    private static IFluidHandler fluidHandler(Level level, BlockPos pos, BlockState state, BlockEntity be, Direction side) {
         InfusionIndex index = InfusionIndex.peek(level);
         Resolved r = index == null ? null : index.get(pos, state);
         Behaviours.FluidSource source = r == null ? null : r.find(Behaviours.FluidSource.class);
-        return source == null ? null : new InfiniteResourceHandler<>(FluidResource.of(source.fluid()));
+        return source == null ? null : new InfiniteSource(source.fluid());
+    }
+
+    /** Endless source of one fluid: drains any amount, accepts nothing. */
+    private record InfiniteSource(Fluid fluid) implements IFluidHandler {
+        @Override
+        public int getTanks() {
+            return 1;
+        }
+
+        @Override
+        public FluidStack getFluidInTank(int tank) {
+            return new FluidStack(fluid, Integer.MAX_VALUE);
+        }
+
+        @Override
+        public int getTankCapacity(int tank) {
+            return Integer.MAX_VALUE;
+        }
+
+        @Override
+        public boolean isFluidValid(int tank, FluidStack stack) {
+            return false;
+        }
+
+        @Override
+        public int fill(FluidStack resource, FluidAction action) {
+            return 0;
+        }
+
+        @Override
+        public FluidStack drain(FluidStack resource, FluidAction action) {
+            return resource.getFluid() == fluid ? resource.copy() : FluidStack.EMPTY;
+        }
+
+        @Override
+        public FluidStack drain(int maxDrain, FluidAction action) {
+            return maxDrain <= 0 ? FluidStack.EMPTY : new FluidStack(fluid, maxDrain);
+        }
     }
 }

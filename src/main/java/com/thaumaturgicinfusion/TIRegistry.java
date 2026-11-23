@@ -1,6 +1,6 @@
 package com.thaumaturgicinfusion;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectInstance;
 import com.leclowndu93150.thaumaturge.api.aspect.AspectList;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
@@ -88,7 +88,7 @@ public final class TIRegistry {
     /** Infused positions of a chunk, replacing the original's per-block InfusedBlock wrapper and world data. */
     public static final Supplier<AttachmentType<InfusedBlocks>> INFUSED_BLOCKS = ATTACHMENTS.register("infused_blocks",
             () -> AttachmentType.builder(() -> InfusedBlocks.EMPTY)
-                    .serialize(InfusedBlocks.CODEC.fieldOf("blocks"), b -> !b.isEmpty())
+                    .serialize(InfusedBlocks.CODEC, b -> !b.isEmpty())
                     .sync(new AttachmentSyncHandler<InfusedBlocks>() {
                         @Override
                         public void write(RegistryFriendlyByteBuf buf, InfusedBlocks value, boolean initialSync) {
@@ -105,11 +105,11 @@ public final class TIRegistry {
     /** Contents of Vacuos blocks, per chunk (server only). */
     public static final Supplier<AttachmentType<StoredItems>> STORED_ITEMS = ATTACHMENTS.register("stored_items",
             () -> AttachmentType.builder(() -> StoredItems.EMPTY)
-                    .serialize(StoredItems.CODEC.fieldOf("slots"), s -> !s.isEmpty())
+                    .serialize(StoredItems.CODEC, s -> !s.isEmpty())
                     .build());
     /** Game time until which Volatus keeps a player's flight. */
     public static final Supplier<AttachmentType<Long>> FLIGHT_UNTIL = ATTACHMENTS.register("flight_until",
-            () -> AttachmentType.builder(() -> 0L).serialize(Codec.LONG.fieldOf("until")).build());
+            () -> AttachmentType.builder(() -> 0L).serialize(Codec.LONG).build());
 
     /**
      * Recipe output marker: the infusion altar crafts a sigil carrying the effect, and InfusionEvents turns it into the
@@ -121,10 +121,10 @@ public final class TIRegistry {
     public static final DeferredBlock<EssentiaBlock> ESSENTIA_BRICKS = essentia("essentia_bricks");
     public static final DeferredBlock<EssentiaBlock> ESSENTIA_CHISELED = essentia("essentia_chiseled");
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EssentiaBlockEntity>> ESSENTIA_BE = BLOCK_ENTITIES.register("essentia_block",
-            () -> new BlockEntityType<>(EssentiaBlockEntity::new, ESSENTIA_BLOCK.get(), ESSENTIA_BRICKS.get(), ESSENTIA_CHISELED.get()));
+            () -> BlockEntityType.Builder.of(EssentiaBlockEntity::new, ESSENTIA_BLOCK.get(), ESSENTIA_BRICKS.get(), ESSENTIA_CHISELED.get()).build(null));
 
     public static final DeferredBlock<InfusionCoreBlock> INFUSION_CORE = BLOCKS.registerBlock("infusion_core", InfusionCoreBlock::new,
-            p -> p.mapColor(MapColor.COLOR_PURPLE).strength(2f, 20f).sound(SoundType.AMETHYST).lightLevel(s -> 8).noOcclusion());
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(2f, 20f).sound(SoundType.AMETHYST).lightLevel(s -> 8).noOcclusion());
     public static final DeferredItem<BlockItem> INFUSION_CORE_ITEM = ITEMS.registerSimpleBlockItem(INFUSION_CORE);
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("main", () -> CreativeModeTab.builder()
@@ -166,8 +166,8 @@ public final class TIRegistry {
 
     private static DeferredBlock<EssentiaBlock> essentia(String name) {
         DeferredBlock<EssentiaBlock> block = BLOCKS.registerBlock(name, EssentiaBlock::new,
-                p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(1.5f, 10f).sound(SoundType.STONE).lightLevel(s -> 15));
-        ITEMS.registerItem(name, p -> new EssentiaBlockItem(block.get(), p.useBlockDescriptionPrefix()));
+                BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(1.5f, 10f).sound(SoundType.STONE).lightLevel(s -> 15));
+        ITEMS.registerItem(name, p -> new EssentiaBlockItem(block.get(), p));
         return block;
     }
 
@@ -182,36 +182,22 @@ public final class TIRegistry {
         out.accept(INFUSION_CORE_ITEM.get());
         HolderLookup.Provider holders = params.holders();
         List<Holder.Reference<IAspect>> aspects = holders.lookup(IAspect.REGISTRY_KEY)
-                .map(l -> l.listElements().sorted((a, b) -> a.key().identifier().compareTo(b.key().identifier())).toList())
+                .map(l -> l.listElements().sorted((a, b) -> a.key().location().compareTo(b.key().location())).toList())
                 .orElse(List.of());
         for (Item item : List.of(ESSENTIA_BLOCK.asItem(), ESSENTIA_BRICKS.asItem(), ESSENTIA_CHISELED.asItem()))
             for (Holder.Reference<IAspect> aspect : aspects)
                 out.accept(essentiaStack(item, aspect));
         // Ready-made infused stone, one per aspect effect, so the effects can be tried without an altar.
         holders.lookup(ASPECT_EFFECT_KEY).ifPresent(l -> l.listElements()
-                .sorted((a, b) -> a.key().identifier().compareTo(b.key().identifier()))
+                .sorted((a, b) -> a.key().location().compareTo(b.key().location()))
                 .forEach(e -> {
                     ItemStack stack = new ItemStack(Items.STONE_BRICKS);
-                    stack.set(INFUSION.get(), new Infusion(List.of(e.key().identifier())));
+                    stack.set(INFUSION.get(), new Infusion(List.of(e.key().location())));
                     out.accept(stack);
                 }));
     }
 
-    private static void oldIds(DeferredRegister<?> reg) {
-        for (var holder : reg.getEntries()) {
-            reg.addAlias(Identifier.fromNamespaceAndPath("thaumicinfusion", holder.getId().getPath()), holder.getId());
-        }
-    }
-
     static void register(IEventBus bus) {
-        // Worlds from before the rename (mod id thaumicinfusion) keep their things: alias every old id to the new one.
-        oldIds(BLOCKS);
-        oldIds(ITEMS);
-        oldIds(COMPONENTS);
-        oldIds(ATTACHMENTS);
-        oldIds(BEHAVIOURS);
-        oldIds(BLOCK_ENTITIES);
-        oldIds(TABS);
         BLOCKS.register(bus);
         ITEMS.register(bus);
         COMPONENTS.register(bus);

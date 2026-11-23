@@ -11,7 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -29,11 +29,11 @@ public record InfusedBlocks(Map<Long, Entry> blocks) {
      * @param disguise block state drawn instead of the real one (Superbia)
      * @param powered  last redstone state seen (Machina)
      */
-    public record Entry(long pos, Identifier block, Infusion infusion, Optional<Direction> facing, Optional<BlockPos> link,
+    public record Entry(long pos, ResourceLocation block, Infusion infusion, Optional<Direction> facing, Optional<BlockPos> link,
                         Optional<BlockState> disguise, boolean powered) {
         static final Codec<Entry> CODEC = RecordCodecBuilder.create(i -> i.group(
                 Codec.LONG.fieldOf("pos").forGetter(Entry::pos),
-                Identifier.CODEC.fieldOf("block").forGetter(Entry::block),
+                ResourceLocation.CODEC.fieldOf("block").forGetter(Entry::block),
                 Infusion.CODEC.fieldOf("effects").forGetter(Entry::infusion),
                 Direction.CODEC.optionalFieldOf("facing").forGetter(Entry::facing),
                 BlockPos.CODEC.optionalFieldOf("link").forGetter(Entry::link),

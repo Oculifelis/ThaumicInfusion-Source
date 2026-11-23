@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
@@ -51,13 +51,13 @@ public final class InfusionLooks {
 
     /** Arbor draws as the matching bottom slab when one exists ("oak_planks" -> "oak_slab", "stone_bricks" -> "stone_brick_slab"). */
     private static BlockState slabFor(Block block) {
-        Identifier id = BuiltInRegistries.BLOCK.getKey(block);
+        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
         String path = id.getPath();
         for (String candidate : new String[]{path + "_slab", path.replace("_planks", "_slab"),
                 path.endsWith("s") ? path.substring(0, path.length() - 1) + "_slab" : null}) {
             if (candidate == null)
                 continue;
-            Block slab = BuiltInRegistries.BLOCK.getValue(id.withPath(candidate));
+            Block slab = BuiltInRegistries.BLOCK.get(id.withPath(candidate));
             if (slab instanceof SlabBlock)
                 return slab.defaultBlockState();
         }

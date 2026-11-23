@@ -10,10 +10,12 @@
       "amount": 4
     }
   ],
-  "catalyst": "#thaumaturgicinfusion:infusable",
+  "catalyst": {
+    "tag": "thaumaturgicinfusion:infusable"
+  },
   "components": [
     {
-      "neoforge:ingredient_type": "neoforge:components",
+      "type": "neoforge:components",
       "items": "thaumaturge:phial",
       "components": {
         "thaumaturge:aspects": [
