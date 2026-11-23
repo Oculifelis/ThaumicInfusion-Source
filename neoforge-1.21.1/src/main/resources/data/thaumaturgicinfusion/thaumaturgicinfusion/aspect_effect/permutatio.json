@@ -1,9 +1,0 @@
-{
-  "aspect": "thaumaturge:permutatio",
-  "cost": 4,
-  "behaviours": [
-    {
-      "type": "thaumaturgicinfusion:inventory_link"
-    }
-  ]
-}

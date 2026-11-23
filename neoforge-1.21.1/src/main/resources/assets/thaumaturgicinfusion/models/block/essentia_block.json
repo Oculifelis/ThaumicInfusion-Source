@@ -1,6 +1,0 @@
-{
-  "parent": "thaumaturgicinfusion:block/tinted_cube_all",
-  "textures": {
-    "all": "thaumaturgicinfusion:block/essentia_block"
-  }
-}
