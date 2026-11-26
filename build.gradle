@@ -41,6 +41,9 @@ dependencies {
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     runtimeOnly "maven.modrinth:lithostitched:${lithostitched_version}"
+    // Jade is optional: compat/TIJadePlugin only loads when Jade finds it.
+    compileOnly files('libs/Jade-1.21.1-NeoForge-15.10.3.jar')
+    runtimeOnly files('libs/Jade-1.21.1-NeoForge-15.10.3.jar')
 }
 
 neoForge {

@@ -94,8 +94,7 @@ public final class StorageEffects {
     }
 
     /** Called when an infused block breaks: spill its inventory. */
-    static void dropContents(ServerLevel level, BlockPos pos) {
-        Resolved r = InfusionWorld.get(level, pos);
+    static void dropContents(ServerLevel level, BlockPos pos, Resolved r) {
         Behaviours.Storage storage = r == null ? null : r.find(Behaviours.Storage.class);
         if (storage != null)
             Containers.dropContents(level, pos, inventory(level, pos, storage.rows()));
