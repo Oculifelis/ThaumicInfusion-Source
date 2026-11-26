@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "com.thaumaturgicinfusion.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["BlockStateMixin", "BlockStateBaseMixin", "LightEngineMixin", "StabilitySurveyMixin"],
+  "mixins": ["BlockStateMixin", "BlockStateBaseMixin", "LightEngineMixin", "StabilitySurveyMixin", "PistonBaseBlockMixin"],
   "client": ["client.RenderSectionRegionMixin"],
   "injectors": {"defaultRequire": 1}
 }

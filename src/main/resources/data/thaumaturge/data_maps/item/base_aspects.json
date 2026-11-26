@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": {
+    "thaumaturgicinfusion:infusion_core": [
+      { "aspect": "thaumaturge:praecantatio", "amount": 6 },
+      { "aspect": "thaumaturge:ordo", "amount": 4 },
+      { "aspect": "thaumaturge:terra", "amount": 2 }
+    ],
+    "thaumaturgicinfusion:infusion_sigil": [
+      { "aspect": "thaumaturge:praecantatio", "amount": 4 },
+      { "aspect": "thaumaturge:cognitio", "amount": 2 }
+    ],
+    "thaumaturgicinfusion:essentia_block": [
+      { "aspect": "thaumaturge:terra", "amount": 3 },
+      { "aspect": "thaumaturge:praecantatio", "amount": 2 },
+      { "aspect": "thaumaturge:lux", "amount": 1 }
+    ],
+    "thaumaturgicinfusion:essentia_bricks": [
+      { "aspect": "thaumaturge:terra", "amount": 3 },
+      { "aspect": "thaumaturge:praecantatio", "amount": 2 },
+      { "aspect": "thaumaturge:lux", "amount": 1 }
+    ],
+    "thaumaturgicinfusion:essentia_chiseled": [
+      { "aspect": "thaumaturge:terra", "amount": 3 },
+      { "aspect": "thaumaturge:praecantatio", "amount": 2 },
+      { "aspect": "thaumaturge:lux", "amount": 1 }
+    ]
+  }
+}

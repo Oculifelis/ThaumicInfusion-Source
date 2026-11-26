@@ -110,21 +110,30 @@ public final class InfusionEvents {
     private static void onDrops(BlockDropsEvent event) {
         ServerLevel level = event.getLevel();
         BlockPos pos = event.getPos();
-        Resolved r = InfusionWorld.get(level, pos);
+        // The block is already gone when drops fire, so match the entry against the broken state.
+        InfusionIndex index = InfusionIndex.peek(level);
+        Resolved r = index == null ? null : index.get(pos, event.getState());
         if (r == null) {
             InfusionWorld.remove(level, pos);
             return;
         }
-        StorageEffects.dropContents(level, pos);
+        StorageEffects.dropContents(level, pos, r);
         Infusion infusion = r.entry().infusion();
         InfusionWorld.remove(level, pos);
+        // The block's own item first; else the first block item it drops (stone drops cobblestone).
+        ItemEntity target = null;
         for (ItemEntity drop : event.getDrops()) {
-            ItemStack stack = drop.getItem();
-            if (stack.getItem() instanceof BlockItem bi && bi.getBlock() == event.getState().getBlock()) {
-                drop.setItem(infuse(stack.copy(), infusion));
-                return;
+            if (drop.getItem().getItem() instanceof BlockItem bi) {
+                if (bi.getBlock() == event.getState().getBlock()) {
+                    target = drop;
+                    break;
+                }
+                if (target == null)
+                    target = drop;
             }
         }
+        if (target != null)
+            target.setItem(infuse(target.getItem().copy(), infusion));
     }
 
     private static BlockProps propsAt(Level level, BlockPos pos) {
